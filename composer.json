@@ -1,0 +1,42 @@
+{
+    "name": "psilocyberunner/stop-forum-spam",
+    "description": "PHP wrapper for stopforumspam.com web service API",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Peter Petrov",
+            "email": "petrovgm@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.3",
+        "ext-curl": "*",
+        "php": "^7.1"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "*",
+        "phpunit/phpunit": "^7.5",
+        "filp/whoops": "^2.3"
+    },
+    "autoload": {
+        "classmap": [
+        ],
+        "psr-4": {
+            "StopForumSpam\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "Tests/TestCase.php"
+        ],
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "vendor-dir": "vendor"
+    }
+}
