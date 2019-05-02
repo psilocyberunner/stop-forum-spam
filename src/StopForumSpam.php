@@ -23,11 +23,6 @@ abstract class StopForumSpam
     protected $apiUrl = 'http://api.stopforumspam.org/api';
 
     /**
-     * @var string
-     */
-    protected $apiToken;
-
-    /**
      * Preferred response type
      *
      * @var string
@@ -96,21 +91,6 @@ abstract class StopForumSpam
     }
 
     /**
-     * API token used to submit your spammer data.
-     *
-     * @param string $apiToken
-     *
-     * @return StopForumSpam
-     * @throws HttpException
-     */
-    public function setApiToken($apiToken): self
-    {
-        $this->setOptions(['query' => ['api_key' => $apiToken]]);
-
-        return $this;
-    }
-
-    /**
      * @return ResponseInterface
      */
     protected function doRequest(): ResponseInterface
@@ -142,6 +122,19 @@ abstract class StopForumSpam
     public function asJSONP($function): self
     {
         $this->setOptions(['query' => ['jsonp' => true, 'callback' => $function]]);
+
+        return $this;
+    }
+
+    /**
+     * Return a serialized PHP result
+     *
+     * @return StopForumSpam
+     * @throws HttpException
+     */
+    public function asSerialized(): self
+    {
+        $this->setOptions(['query' => ['serial' => true]]);
 
         return $this;
     }
