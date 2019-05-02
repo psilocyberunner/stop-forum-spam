@@ -27,7 +27,9 @@ $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 $whoops->register();
 ```
 
-##### Search by email
+$result variables in below examples are the instances of Psr\Http\Message\ResponseInterface
+
+#### Search by email
 
 ```php
 <?php
@@ -41,6 +43,7 @@ require_once 'bootstrap.php';
 $client = new SearchByEmail('shamrykenkokatya@gmail.com');
 $client->asJSON();
 $client->withConfidence(); # If you need confidence score
+/** @var Psr\Http\Message\ResponseInterface $result */
 $result = $client->search();
 
 return $result->getBody()->getContents();
@@ -60,7 +63,7 @@ Example response
 }
 ```
 
-##### Search by email hash
+#### Search by email hash
 
 _Email hash is plain md5 checksum for email address_
 
@@ -95,7 +98,7 @@ Example response
 }
 ```
 
-##### Search by ip
+#### Search by ip
 
 ```php
 <?php
@@ -132,7 +135,7 @@ Example response
 }
 ```
 
-##### Search by username
+#### Search by username
 
 ```php
 <?php
@@ -165,7 +168,7 @@ Example response
 }
 ```
 
-##### Multiple search parameters
+#### Multiple search parameters
 
 ```php
 <?php
@@ -233,6 +236,13 @@ Method call **withExpire(10)** provides the ability to have API results filtered
 $client->withExpire(10);
 `
 
+Method call **asJSONP('function name')** provide ajax/jquery support with JSONP, which allows for a callback function to be specified around a json result.
 
+`
+$client->asJSONP('test');
+`
 
+Response example
+
+`test_function({"success":1,"email":{"lastseen":"2019-03-24 14:19:15","frequency":5027,"appears":1,"confidence":97.01}})`
 
