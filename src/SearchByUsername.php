@@ -25,7 +25,7 @@ class SearchByUsername extends StopForumSpam
         parent::__construct($options);
 
         if (!empty($username)) {
-            $this->setOptions(['query' => ['username' => urlencode($username)]]);
+            $this->setOptions(['query' => ['username' => $username]]);
         } else {
             throw new HttpException('Can not use empty string as search criteria');
         }

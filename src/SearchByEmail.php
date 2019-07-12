@@ -25,7 +25,7 @@ class SearchByEmail extends StopForumSpam
         parent::__construct($options);
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $this->setOptions(['query' => ['email' => urlencode($email)]]);
+            $this->setOptions(['query' => ['email' => $email]]);
         } else {
             throw new HttpException('Bad email ' . htmlspecialchars($email) . ' format given.');
         }
