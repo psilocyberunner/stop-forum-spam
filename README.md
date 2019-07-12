@@ -242,6 +242,32 @@ For submit spam requests only response codes are indicators of success/failure. 
 
 After submit request you can see all of your spammers data in special section of https://www.stopforumspam.com/ web site called https://www.stopforumspam.com/myspammers.
 
+
+#### Wildcards
+
+SFS operate a list of email domains, usernames and IP addresses which are considered hostile. 
+You may wish to ignore these lists, in this case you need to add the following URL parameters
+
+To ignore the email/domain list checks
+```php
+$client->withNoBadEmail();
+```
+
+To ignore the username (partial string) list checks
+```php
+$client->withNoBadUsername();
+```
+
+To ignore the IP lists (which includes some of the Internets most hostile spam friendly networks)
+```php
+$client->withNoBadIp();
+```
+
+Or to ignore all wildcard checks
+```php
+$client->withNoBadAll();
+```
+
 #### Some useful methods
 
 Method call **withConfidence()** will include in response additional info about confidence score
