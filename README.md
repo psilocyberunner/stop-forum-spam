@@ -214,6 +214,34 @@ Example response
 }
 ```
 
+#### Submit your spammer data
+You'll need your personal API token to use this feature. Register at https://www.stopforumspam.com/ and get one.
+
+```php
+<?php
+
+use StopForumSpam\SearchMultiple;
+
+require_once 'bootstrap.php';
+
+# --- Report spam data
+
+$client = new SubmitSpamReport();
+$client->setApiToken('token');
+$client->setIpAddress('178.159.37.84'); # already listed as spam source
+$client->setEmail('test@test.com');
+$client->setEvidence('evidence');
+$client->setUsername('tester');
+
+$result = $client->submit();
+
+return $result->getStatusCode();
+```
+
+For submit spam requests only response codes are indicators of success/failure. No JSON in returned. 
+
+After submit request you can see all of your spammers data in special section of https://www.stopforumspam.com/ web site called https://www.stopforumspam.com/myspammers.
+
 #### Some useful methods
 
 Method call **withConfidence()** will include in response additional info about confidence score
@@ -249,9 +277,9 @@ Response example
 
 Add Wildcards disable logic
 
-Add submit spam data logic
-
 Add bulk search logic (?) 
+
+Add TOR exit nodes logic (?)
 
 Add xmlcdata (?) 
 
