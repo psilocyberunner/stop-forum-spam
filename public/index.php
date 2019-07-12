@@ -11,6 +11,10 @@ if (!empty($_GET['src'])) {
             highlight_file('SearchByEmailHash.php');
             break;
 
+        case 'by-domain':
+            highlight_file('SearchByDomain.php');
+            break;
+
         case 'by-ip':
             highlight_file('SearchByIp.php');
             break;
@@ -36,6 +40,10 @@ if (!empty($_GET['search'])) {
 
         case 'by-email-hash':
             $result = require_once 'SearchByEmailHash.php';
+            break;
+
+        case 'by-domain':
+            $result = require_once 'SearchByDomain.php';
             break;
 
         case 'by-ip':
@@ -88,6 +96,9 @@ if (!empty($_GET['search'])) {
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="javascript:getSearchSrc('by-email-hash'); getSearchResults('by-email-hash');">Search by hash</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:getSearchSrc('by-domain'); getSearchResults('by-domain');">Search by domain</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="javascript:getSearchSrc('by-ip'); getSearchResults('by-ip');">Search by IP</a>
