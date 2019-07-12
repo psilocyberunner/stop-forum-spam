@@ -7,6 +7,11 @@ use StopForumSpam\Exceptions\HttpException;
 use StopForumSpam\StopForumSpam;
 use Tests\TestCase;
 
+/**
+ * Class StopForumSpamTest
+ *
+ * @package Tests\StopForumSpam
+ */
 class StopForumSpamTest extends TestCase
 {
     /**
@@ -14,20 +19,33 @@ class StopForumSpamTest extends TestCase
      */
     protected $instance;
 
+    /**
+     * StopForumSpamTest constructor.
+     *
+     * @param string|null $name
+     * @param array       $data
+     * @param string      $dataName
+     */
     public function __construct(?string $name = null, array $data = [], string $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
     }
 
+    /**
+     *
+     */
     protected function setUp()
     {
-        // Create a new instance from the Abstract Class
         $this->instance = new class extends StopForumSpam
         {
 
         };
     }
 
+    /**
+     * @covers \StopForumSpam\StopForumSpam::asJSON
+     * @throws HttpException
+     */
     public function testAsJSON()
     {
         $this->instance->asJSON();
@@ -44,6 +62,10 @@ class StopForumSpamTest extends TestCase
         $this->assertTrue(mb_strpos($result->getHeaderLine('Content-Type'), 'application/json') !== false);
     }
 
+    /**
+     * @covers \StopForumSpam\StopForumSpam::asJSONP
+     * @throws HttpException
+     */
     public function testAsJSONP()
     {
         $this->instance->asJSONP('testFunc');
@@ -62,13 +84,10 @@ class StopForumSpamTest extends TestCase
         $this->assertTrue(mb_strpos($result->getBody()->getContents(), 'testFunc') !== false);
     }
 
-    public function testSetApiToken()
-    {
-        $this->instance->setApiToken('some-token');
-        $options = $this->instance->getOptions();
-        $this->assertEquals($options['query']['api_key'], 'some-token');
-    }
-
+    /**
+     * @covers \StopForumSpam\StopForumSpam::withConfidence
+     * @throws HttpException
+     */
     public function testWithConfidence()
     {
         $this->instance->withConfidence();
@@ -76,18 +95,29 @@ class StopForumSpamTest extends TestCase
         $this->assertEquals($options['query']['confidence'], true);
     }
 
+    /**
+     * @covers \StopForumSpam\StopForumSpam::setOptions
+     * @throws HttpException
+     */
     public function testSetOptionsEmptyVar()
     {
         $this->expectException(HttpException::class);
         $this->instance->setOptions([]);
     }
 
+    /**
+     * @covers \StopForumSpam\StopForumSpam::setOptions
+     * @throws HttpException
+     */
     public function testSetOptionsNotArray()
     {
         $this->expectException(\TypeError::class);
         $this->instance->setOptions('test');
     }
 
+    /**
+     * @covers \StopForumSpam\StopForumSpam::getOptions
+     */
     public function testGetOptions()
     {
         $options = $this->instance->getOptions();
@@ -95,6 +125,10 @@ class StopForumSpamTest extends TestCase
         $this->assertNotEmpty($options);
     }
 
+    /**
+     * @covers \StopForumSpam\StopForumSpam::search
+     * @throws HttpException
+     */
     public function testSearch()
     {
         # Added for proper API response
@@ -107,6 +141,9 @@ class StopForumSpamTest extends TestCase
         $this->assertEquals(200, $result->getStatusCode());
     }
 
+    /**
+     * @throws HttpException
+     */
     public function testEmptySearch()
     {
         $this->expectException(HttpException::class);

@@ -3,23 +3,23 @@
 namespace Tests\StopForumSpam;
 
 use StopForumSpam\Exceptions\HttpException;
-use StopForumSpam\SearchByEmail;
+use StopForumSpam\SearchByUsername;
 use Tests\TestCase;
 
 /**
- * Class SearchByEmailTest
+ * Class SearchByUsernameTest
  *
  * @package Tests\StopForumSpam
  */
-class SearchByEmailTest extends TestCase
+class SearchByUsernameTest extends TestCase
 {
     /**
-     * @var SearchByEmail
+     * @var SearchByUsername
      */
     protected $instance;
 
     /**
-     * SearchByEmailTest constructor.
+     * SearchByUsernameTest constructor.
      *
      * @param string|null $name
      * @param array       $data
@@ -35,38 +35,38 @@ class SearchByEmailTest extends TestCase
      */
     protected function setUp()
     {
-        $this->instance = new class('test@test.ru') extends SearchByEmail
+        $this->instance = new class('test') extends SearchByUsername
         {
 
         };
     }
 
     /**
-     * @covers \StopForumSpam\SearchByEmail::__construct
+     * @covers \StopForumSpam\SearchByUsername::__construct
      * @throws HttpException
      */
     public function testCreateInstance()
     {
-        $sfs = new SearchByEmail('test@test.tld');
+        $sfs = new SearchByUsername('test');
         $this->assertIsObject($sfs);
-        $this->assertInstanceOf(SearchByEmail::class, $sfs);
+        $this->assertInstanceOf(SearchByUsername::class, $sfs);
     }
 
     /**
-     * @covers \StopForumSpam\SearchByEmail::__construct
+     * @covers \StopForumSpam\SearchByUsername::__construct
      * @throws HttpException
      */
-    public function testCreateInstanceBadEmail()
+    public function testCreateInstanceBadUsername()
     {
         $this->expectException(HttpException::class);
-        (new SearchByEmail('NOT_AN_EMAIL_ADDR'))->search();
+        (new SearchByUsername(null))->search();
     }
 
     /**
-     * @covers \StopForumSpam\SearchByEmail::search
+     * @covers \StopForumSpam\SearchByUsername::search
      * @throws HttpException
      */
-    public function testSearchByEmail()
+    public function testSearchByUsername()
     {
         $response = $this->instance->search();
 
@@ -75,7 +75,7 @@ class SearchByEmailTest extends TestCase
         $jsonResult = json_decode($response->getBody()->getContents());
 
         $this->assertTrue(isset($jsonResult->success));
-        $this->assertTrue(isset($jsonResult->email));
+        $this->assertTrue(isset($jsonResult->username));
 
         $this->assertEquals(1, $jsonResult->success);
     }

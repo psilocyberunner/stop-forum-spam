@@ -3,23 +3,23 @@
 namespace Tests\StopForumSpam;
 
 use StopForumSpam\Exceptions\HttpException;
-use StopForumSpam\SearchByEmail;
+use StopForumSpam\SearchMultiple;
 use Tests\TestCase;
 
 /**
- * Class SearchByEmailTest
+ * Class SearchMultipleTest
  *
  * @package Tests\StopForumSpam
  */
-class SearchByEmailTest extends TestCase
+class SearchMultipleTest extends TestCase
 {
     /**
-     * @var SearchByEmail
+     * @var SearchMultiple
      */
     protected $instance;
 
     /**
-     * SearchByEmailTest constructor.
+     * SearchMultipleTest constructor.
      *
      * @param string|null $name
      * @param array       $data
@@ -35,38 +35,44 @@ class SearchByEmailTest extends TestCase
      */
     protected function setUp()
     {
-        $this->instance = new class('test@test.ru') extends SearchByEmail
+        $this->instance = new class([
+            'email'    => 'test@test.tld',
+            'ip'       => '77.111.247.62',
+            'username' => 'test',
+        ]) extends SearchMultiple
         {
 
         };
     }
 
     /**
-     * @covers \StopForumSpam\SearchByEmail::__construct
+     * @covers \StopForumSpam\SearchMultiple::__construct
      * @throws HttpException
      */
     public function testCreateInstance()
     {
-        $sfs = new SearchByEmail('test@test.tld');
-        $this->assertIsObject($sfs);
-        $this->assertInstanceOf(SearchByEmail::class, $sfs);
+        $this->assertIsObject($this->instance);
+        $this->assertInstanceOf(SearchMultiple::class, $this->instance);
     }
 
     /**
-     * @covers \StopForumSpam\SearchByEmail::__construct
+     * @covers \StopForumSpam\SearchMultiple::__construct
      * @throws HttpException
      */
-    public function testCreateInstanceBadEmail()
+    public function testCreateInstanceBadParameters()
     {
+        $this->expectException(\TypeError::class);
+        (new SearchMultiple(null))->search();
+
         $this->expectException(HttpException::class);
-        (new SearchByEmail('NOT_AN_EMAIL_ADDR'))->search();
+        (new SearchMultiple([]))->search();
     }
 
     /**
-     * @covers \StopForumSpam\SearchByEmail::search
+     * @covers \StopForumSpam\SearchMultiple::search
      * @throws HttpException
      */
-    public function testSearchByEmail()
+    public function testSearchByUsername()
     {
         $response = $this->instance->search();
 
@@ -75,6 +81,9 @@ class SearchByEmailTest extends TestCase
         $jsonResult = json_decode($response->getBody()->getContents());
 
         $this->assertTrue(isset($jsonResult->success));
+
+        $this->assertTrue(isset($jsonResult->ip));
+        $this->assertTrue(isset($jsonResult->username));
         $this->assertTrue(isset($jsonResult->email));
 
         $this->assertEquals(1, $jsonResult->success);

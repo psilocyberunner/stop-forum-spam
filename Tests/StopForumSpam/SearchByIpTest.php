@@ -3,23 +3,23 @@
 namespace Tests\StopForumSpam;
 
 use StopForumSpam\Exceptions\HttpException;
-use StopForumSpam\SearchByEmail;
+use StopForumSpam\SearchByIp;
 use Tests\TestCase;
 
 /**
- * Class SearchByEmailTest
+ * Class SearchByIpTest
  *
  * @package Tests\StopForumSpam
  */
-class SearchByEmailTest extends TestCase
+class SearchByIpTest extends TestCase
 {
     /**
-     * @var SearchByEmail
+     * @var SearchByIp
      */
     protected $instance;
 
     /**
-     * SearchByEmailTest constructor.
+     * SearchByIpTest constructor.
      *
      * @param string|null $name
      * @param array       $data
@@ -35,38 +35,38 @@ class SearchByEmailTest extends TestCase
      */
     protected function setUp()
     {
-        $this->instance = new class('test@test.ru') extends SearchByEmail
+        $this->instance = new class('77.111.247.62') extends SearchByIp
         {
 
         };
     }
 
     /**
-     * @covers \StopForumSpam\SearchByEmail::__construct
+     * @covers \StopForumSpam\SearchByIp::__construct
      * @throws HttpException
      */
     public function testCreateInstance()
     {
-        $sfs = new SearchByEmail('test@test.tld');
+        $sfs = new SearchByIp('77.111.247.62');
         $this->assertIsObject($sfs);
-        $this->assertInstanceOf(SearchByEmail::class, $sfs);
+        $this->assertInstanceOf(SearchByIp::class, $sfs);
     }
 
     /**
-     * @covers \StopForumSpam\SearchByEmail::__construct
+     * @covers \StopForumSpam\SearchByIp::__construct
      * @throws HttpException
      */
-    public function testCreateInstanceBadEmail()
+    public function testCreateInstanceBadIp()
     {
         $this->expectException(HttpException::class);
-        (new SearchByEmail('NOT_AN_EMAIL_ADDR'))->search();
+        (new SearchByIp(null))->search();
     }
 
     /**
-     * @covers \StopForumSpam\SearchByEmail::search
+     * @covers \StopForumSpam\SearchByIp::search
      * @throws HttpException
      */
-    public function testSearchByEmail()
+    public function testSearchByIp()
     {
         $response = $this->instance->search();
 
@@ -75,7 +75,7 @@ class SearchByEmailTest extends TestCase
         $jsonResult = json_decode($response->getBody()->getContents());
 
         $this->assertTrue(isset($jsonResult->success));
-        $this->assertTrue(isset($jsonResult->email));
+        $this->assertTrue(isset($jsonResult->ip));
 
         $this->assertEquals(1, $jsonResult->success);
     }

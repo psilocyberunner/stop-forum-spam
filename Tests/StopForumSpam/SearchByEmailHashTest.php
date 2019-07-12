@@ -3,23 +3,23 @@
 namespace Tests\StopForumSpam;
 
 use StopForumSpam\Exceptions\HttpException;
-use StopForumSpam\SearchByEmail;
+use StopForumSpam\SearchByEmailHash;
 use Tests\TestCase;
 
 /**
- * Class SearchByEmailTest
+ * Class SearchByEmailHashTest
  *
  * @package Tests\StopForumSpam
  */
-class SearchByEmailTest extends TestCase
+class SearchByEmailHashTest extends TestCase
 {
     /**
-     * @var SearchByEmail
+     * @var SearchByEmailHash
      */
     protected $instance;
 
     /**
-     * SearchByEmailTest constructor.
+     * SearchByEmailHashTest constructor.
      *
      * @param string|null $name
      * @param array       $data
@@ -35,38 +35,37 @@ class SearchByEmailTest extends TestCase
      */
     protected function setUp()
     {
-        $this->instance = new class('test@test.ru') extends SearchByEmail
+        $this->instance = new class(md5('test@test.ru')) extends SearchByEmailHash
         {
 
         };
     }
 
     /**
-     * @covers \StopForumSpam\SearchByEmail::__construct
+     * @covers \StopForumSpam\SearchByEmailHash::__construct
      * @throws HttpException
      */
     public function testCreateInstance()
     {
-        $sfs = new SearchByEmail('test@test.tld');
-        $this->assertIsObject($sfs);
-        $this->assertInstanceOf(SearchByEmail::class, $sfs);
+        $this->assertIsObject($this->instance);
+        $this->assertInstanceOf(SearchByEmailHash::class, $this->instance);
     }
 
     /**
-     * @covers \StopForumSpam\SearchByEmail::__construct
+     * @covers \StopForumSpam\SearchByEmailHash::__construct
      * @throws HttpException
      */
-    public function testCreateInstanceBadEmail()
+    public function testCreateInstanceBadEmailHash()
     {
         $this->expectException(HttpException::class);
-        (new SearchByEmail('NOT_AN_EMAIL_ADDR'))->search();
+        (new SearchByEmailHash(null))->search();
     }
 
     /**
-     * @covers \StopForumSpam\SearchByEmail::search
+     * @covers \StopForumSpam\SearchByEmailHash::search
      * @throws HttpException
      */
-    public function testSearchByEmail()
+    public function testSearchByEmailHash()
     {
         $response = $this->instance->search();
 
@@ -75,9 +74,8 @@ class SearchByEmailTest extends TestCase
         $jsonResult = json_decode($response->getBody()->getContents());
 
         $this->assertTrue(isset($jsonResult->success));
-        $this->assertTrue(isset($jsonResult->email));
+        $this->assertTrue(isset($jsonResult->emailhash));
 
         $this->assertEquals(1, $jsonResult->success);
     }
-
 }
