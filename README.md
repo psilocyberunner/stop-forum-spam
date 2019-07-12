@@ -340,8 +340,6 @@ Response example
 
 #### Future plans
 
-Add Wildcards disable logic
-
 Add bulk search logic (?) 
 
 Add TOR exit nodes logic (?)
