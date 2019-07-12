@@ -8,7 +8,7 @@ Clone this repository
 
 `git clone git@github.com:psilocyberunner/stop-forum-spam.git`
 
-Or require https://packagist.org package via composer
+Or require package via composer
 
 `composer require psilocyberunner/stop-forum-spam`
 
@@ -26,8 +26,6 @@ $whoops = new \Whoops\Run;
 $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 $whoops->register();
 ```
-
-$result variables in below examples are the instances of Psr\Http\Message\ResponseInterface
 
 #### Search by email
 
@@ -244,5 +242,18 @@ $client->asJSONP('test');
 
 Response example
 
-`test_function({"success":1,"email":{"lastseen":"2019-03-24 14:19:15","frequency":5027,"appears":1,"confidence":97.01}})`
+`test({"success":1,"email":{"lastseen":"2019-03-24 14:19:15","frequency":5027,"appears":1,"confidence":97.01}})`
+
+
+#### Future plans
+
+Add Wildcards disable logic
+
+Add submit spam data logic
+
+Add bulk search logic (?) 
+
+Add xmlcdata (?) 
+
+Add xmldom (?)
 
