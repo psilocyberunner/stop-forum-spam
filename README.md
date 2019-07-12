@@ -61,6 +61,45 @@ Example response
 }
 ```
 
+#### Search by domain
+
+This search is almost equal to email search except that it uses wildcard list of hostile domains.
+
+```php
+<?php
+
+
+use StopForumSpam\SearchByDomain;
+
+require_once 'bootstrap.php';
+
+# --- Search by domain
+
+$client = new SearchByDomain('@kinogomyhit.ru');
+$client->asJSON();
+$client->withConfidence(); # If you need confidence score
+$result = $client->search();
+
+# When a query results in a blacklist result, the frequncy field will be a value of 255, and the lastseen date will update to the current time (UTC)
+return $result->getBody()->getContents();
+```
+
+When a query results in a blacklist result, the frequncy field will be a value of 255, and the lastseen date will update to the current time (UTC).
+
+Example response
+
+```json
+{
+    "success": 1,
+    "email": {
+        "lastseen": "2019-01-01 00:00:01",
+        "frequency": 255,
+        "appears": 1,
+        "confidence": 99.95
+    }
+}
+```
+
 #### Search by email hash
 
 _Email hash is plain md5 checksum for email address_

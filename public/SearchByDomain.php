@@ -5,7 +5,7 @@ use StopForumSpam\SearchByDomain;
 
 require_once 'bootstrap.php';
 
-# --- Search by email address
+# --- Search by domain
 
 $client = new SearchByDomain('@kinogomyhit.ru');
 $client->asJSON();
