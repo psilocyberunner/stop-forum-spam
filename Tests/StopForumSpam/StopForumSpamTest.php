@@ -96,6 +96,50 @@ class StopForumSpamTest extends TestCase
     }
 
     /**
+     * @covers \StopForumSpam\StopForumSpam::withNoBadEmail
+     * @throws HttpException
+     */
+    public function testWithNoBadEmail()
+    {
+        $this->instance->withNoBadEmail();
+        $options = $this->instance->getOptions();
+        $this->assertEquals($options['query']['nobademail'], true);
+    }
+
+    /**
+     * @covers \StopForumSpam\StopForumSpam::withNoBadIp
+     * @throws HttpException
+     */
+    public function testWithNoBadIp()
+    {
+        $this->instance->withNoBadIp();
+        $options = $this->instance->getOptions();
+        $this->assertEquals($options['query']['nobadip'], true);
+    }
+
+    /**
+     * @covers \StopForumSpam\StopForumSpam::withNoBadUsername
+     * @throws HttpException
+     */
+    public function testWithNoBadUsername()
+    {
+        $this->instance->withNoBadUsername();
+        $options = $this->instance->getOptions();
+        $this->assertEquals($options['query']['nobadusername'], true);
+    }
+
+    /**
+     * @covers \StopForumSpam\StopForumSpam::withNoBadAll
+     * @throws HttpException
+     */
+    public function testWithNoBadAll()
+    {
+        $this->instance->withNoBadAll();
+        $options = $this->instance->getOptions();
+        $this->assertEquals($options['query']['nobadall'], true);
+    }
+
+    /**
      * @covers \StopForumSpam\StopForumSpam::setOptions
      * @throws HttpException
      */

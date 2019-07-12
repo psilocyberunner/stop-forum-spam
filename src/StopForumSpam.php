@@ -197,6 +197,59 @@ abstract class StopForumSpam
     }
 
     /**
+     * To ignore the email/domain list checks
+     *
+     * @return $this
+     * @throws HttpException
+     */
+    public function withNoBadEmail()
+    {
+        $this->setOptions(['query' => ['nobademail' => true]]);
+
+        return $this;
+    }
+
+    /**
+     * To ignore the username (partial string) list checks
+     *
+     * @return $this
+     * @throws HttpException
+     */
+    public function withNoBadUsername()
+    {
+        $this->setOptions(['query' => ['nobadusername' => true]]);
+
+        return $this;
+    }
+
+    /**
+     * To ignore the IP lists (which includes some of the Internets most hostile spam friendly networks)
+     *
+     * @return $this
+     * @throws HttpException
+     */
+    public function withNoBadIp()
+    {
+        $this->setOptions(['query' => ['nobadip' => true]]);
+
+        return $this;
+    }
+
+    /**
+     * To ignore all wildcard checks
+     *
+     * @return $this
+     * @throws HttpException
+     */
+    public function withNoBadAll()
+    {
+        $this->setOptions(['query' => ['nobadall' => true]]);
+
+        return $this;
+    }
+
+
+    /**
      * @return array
      */
     public function getOptions(): array
