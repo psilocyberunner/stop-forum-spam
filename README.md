@@ -254,6 +254,97 @@ Example response
 }
 ```
 
+
+#### Search by bulk data
+
+If you want to search for several IPs, usernames or emails at once - you can use SearchByBulk class.
+Up to 15 queries of any field combination can be made by constructing the fields as an array, as below.
+
+```php
+<?php
+
+use StopForumSpam\SearchByBulk;
+
+require_once 'bootstrap.php';
+
+# --- Search multiple targets at once
+
+$client = new SearchByBulk([
+    'ip'       => [
+        '127.0.0.1',
+        '77.111.247.62',
+    ],
+    'username' => [
+        'Nicole',
+        'some-random-username-for-test',
+    ],
+    'email'    => [
+        'shamrykenkokatya@gmail.com',
+        'some-email@test.tld',
+    ],
+]);
+$client->withConfidence(); # If you need confidence score
+
+$result = $client->search();
+
+return $result->getBody()->getContents();
+```
+
+Example response
+
+```json
+{
+    "success": 1,
+    "ip": [
+        {
+            "value": "127.0.0.1",
+            "frequency": 0,
+            "appears": 0,
+            "country": "us",
+            "asn": 14618
+        },
+        {
+            "value": "77.111.247.62",
+            "lastseen": "2018-10-02 11:48:41",
+            "frequency": 8,
+            "appears": 1,
+            "confidence": 0.34,
+            "delegated": "fr",
+            "country": "us",
+            "asn": 14618
+        }
+    ],
+    "username": [
+        {
+            "value": "Nicole",
+            "lastseen": "2019-06-22 01:20:24",
+            "frequency": 14,
+            "appears": 1,
+            "confidence": 11.82
+        },
+        {
+            "value": "some-random-username-for-test",
+            "frequency": 0,
+            "appears": 0
+        }
+    ],
+    "email": [
+        {
+            "value": "shamrykenkokatya@gmail.com",
+            "lastseen": "2019-06-26 07:25:30",
+            "frequency": 5112,
+            "appears": 1,
+            "confidence": 98.92
+        },
+        {
+            "value": "some-email@test.tld",
+            "frequency": 0,
+            "appears": 0
+        }
+    ]
+}
+```
+
 #### Submit your spammer data
 You'll need your personal API token to use this feature. Register at https://www.stopforumspam.com/ and get one.
 

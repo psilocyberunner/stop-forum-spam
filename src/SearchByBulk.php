@@ -12,6 +12,11 @@ use StopForumSpam\Exceptions\HttpException;
 class SearchByBulk extends StopForumSpam
 {
     /**
+     * Up to 15 queries of any field combination can be made by constructing the fields as an array.
+     */
+    const SearchVarsLimit = 15;
+
+    /**
      * SearchByBulk constructor.
      *
      * @param array $bulk
@@ -26,7 +31,7 @@ class SearchByBulk extends StopForumSpam
         if (!empty($bulk) && $this->checkBulk($bulk)) {
             $this->setOptions(['query' => $bulk]);
         } else {
-            throw new HttpException('Bad bulk data ' . print_r($bulk, 1) . ' format given.');
+            throw new HttpException('Bad bulk data ' . print_r($bulk, 1) . ' format given or search limit (' . self::SearchVarsLimit . ') exceeded.');
         }
     }
 
@@ -41,7 +46,9 @@ class SearchByBulk extends StopForumSpam
     {
         # We wait $bulk as two-dimensional array
         if (is_array($bulk['ip']) || is_array($bulk['username']) || is_array($bulk['email'])) {
-            return true;
+            if ((count($bulk['ip'] ?? []) + count($bulk['username'] ?? []) + count($bulk['email'] ?? [])) <= self::SearchVarsLimit) {
+                return true;
+            }
         }
 
         return false;

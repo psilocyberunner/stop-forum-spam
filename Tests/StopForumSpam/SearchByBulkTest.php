@@ -113,4 +113,37 @@ class SearchByBulkTest extends TestCase
         $this->assertEquals(1, $jsonResult->success);
     }
 
+    /**
+     * @covers \StopForumSpam\SearchByBulk::search
+     * @covers \StopForumSpam\SearchByBulk::checkBulk
+     * @throws HttpException
+     */
+    public function testSearchByBadBulkData()
+    {
+        $this->expectException(HttpException::class);
+        $this->instance = new class([
+            'ip' => [
+                '127.0.0.1',
+                '127.0.0.1',
+                '127.0.0.1',
+                '127.0.0.1',
+                '127.0.0.1',
+                '127.0.0.1',
+                '127.0.0.1',
+                '127.0.0.1',
+                '127.0.0.1',
+                '127.0.0.1',
+                '127.0.0.1',
+                '127.0.0.1',
+                '127.0.0.1',
+                '127.0.0.1',
+                '127.0.0.1',
+                '127.0.0.1',
+            ],
+        ]) extends SearchByBulk
+        {
+
+        };
+    }
+
 }
