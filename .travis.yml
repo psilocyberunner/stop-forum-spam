@@ -10,4 +10,5 @@ before_install:
   - composer validate --ansi
 
 install:
-  - composer install
+  - rm composer.lock
+  - travis_retry composer update --prefer-dist
