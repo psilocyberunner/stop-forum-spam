@@ -16,8 +16,8 @@ class SearchByDomain extends StopForumSpam
      * SearchByDomain constructor.
      * Usage similar to SearchByEmail except you need to pass <@domain.tld> and not <email@domain.tld>
      *
-     * @param       $domain
-     * @param array $options
+     * @param string $domain
+     * @param array  $options
      *
      * @throws HttpException
      */

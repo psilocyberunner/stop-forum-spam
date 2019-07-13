@@ -1,6 +1,5 @@
 <?php
 
-
 use StopForumSpam\SearchByBulk;
 
 require_once 'bootstrap.php';

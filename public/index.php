@@ -26,6 +26,10 @@ if (!empty($_GET['src'])) {
         case 'search-multiple':
             highlight_file('SearchMultiple.php');
             break;
+
+        case 'search-bulk':
+            highlight_file('SearchByBulk.php');
+            break;
     }
 
     exit;
@@ -56,6 +60,10 @@ if (!empty($_GET['search'])) {
 
         case 'search-multiple':
             $result = require_once 'SearchMultiple.php';
+            break;
+
+        case 'search-bulk':
+            $result = require_once 'SearchByBulk.php';
             break;
     }
 
@@ -108,6 +116,9 @@ if (!empty($_GET['search'])) {
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="javascript:getSearchSrc('search-multiple'); getSearchResults('search-multiple');">Search multiple items</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:getSearchSrc('search-bulk'); getSearchResults('search-bulk');">Search bulk data</a>
             </li>
         </ul>
     </div>
