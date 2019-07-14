@@ -1,4 +1,6 @@
 # stop-forum-spam
+[![Build Status](https://travis-ci.com/psilocyberunner/stop-forum-spam.svg?branch=master)](https://travis-ci.com/psilocyberunner/stop-forum-spam)
+
 PHP wrapper for https://www.stopforumspam.com/usage web service API as a standalone library.
 
 
