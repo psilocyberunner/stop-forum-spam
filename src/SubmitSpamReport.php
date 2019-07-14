@@ -37,6 +37,8 @@ class SubmitSpamReport extends StopForumSpam
      */
     public function __construct($options = [])
     {
+        parent::__construct($options);
+
         $this->options = array_merge_recursive([
             'base_uri' => $this->apiUrl,
         ], $options);
