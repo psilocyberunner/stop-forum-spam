@@ -4,6 +4,10 @@ php:
   - '7.2'
   - '7.3'
 
+branches:
+  only:
+    - master
+
 before_install:
   - composer self-update
   - composer validate --ansi
