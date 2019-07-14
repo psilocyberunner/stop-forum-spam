@@ -50,7 +50,7 @@ class SubmitSpamReport extends StopForumSpam
      * @return Client
      * @throws HttpException
      */
-    public function __get($name)
+    public function __get(string $name)
     {
         if (empty($this->options['base_uri'])) {
             throw new HttpException('Base API Uri can not be empty.');
