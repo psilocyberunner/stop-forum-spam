@@ -14,4 +14,4 @@ install:
 
 script:
   - composer phpstan
-  - ./vendor/bin/phpunit
+  - composer phpunit
