@@ -21,7 +21,7 @@ class SearchByDomain extends StopForumSpam
      *
      * @throws HttpException
      */
-    public function __construct($domain, array $options = [])
+    public function __construct(string $domain, array $options = [])
     {
         parent::__construct($options);
 

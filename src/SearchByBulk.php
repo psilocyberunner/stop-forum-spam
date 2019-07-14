@@ -31,7 +31,7 @@ class SearchByBulk extends StopForumSpam
         if (!empty($bulk) && $this->checkBulk($bulk)) {
             $this->setOptions(['query' => $bulk]);
         } else {
-            throw new HttpException('Bad bulk data ' . print_r($bulk, 1) . ' format given or search limit (' . self::SearchVarsLimit . ') exceeded.');
+            throw new HttpException('Bad bulk data ' . print_r($bulk, true) . ' format given or search limit (' . self::SearchVarsLimit . ') exceeded.');
         }
     }
 

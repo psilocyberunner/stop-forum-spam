@@ -27,7 +27,7 @@ class SearchMultiple extends StopForumSpam
         if (!empty($parameters)) {
             $this->setOptions(['query' => $parameters]);
         } else {
-            throw new HttpException('Bad ip ' . htmlspecialchars($parameters) . ' format given.');
+            throw new HttpException('Bad ip ' . print_r($parameters, true) . ' format given.');
         }
     }
 }

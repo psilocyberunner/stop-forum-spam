@@ -20,7 +20,7 @@ class SearchByIp extends StopForumSpam
      *
      * @throws HttpException
      */
-    public function __construct($ip, array $options = [])
+    public function __construct(string $ip, array $options = [])
     {
         parent::__construct($options);
 

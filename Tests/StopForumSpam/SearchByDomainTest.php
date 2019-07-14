@@ -57,7 +57,7 @@ class SearchByDomainTest extends TestCase
      */
     public function testCreateInstanceBadEmail()
     {
-        $this->expectException(HttpException::class);
+        $this->expectException(\TypeError::class);
         (new SearchByDomain(null))->search();
     }
 

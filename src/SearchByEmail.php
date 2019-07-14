@@ -20,7 +20,7 @@ class SearchByEmail extends StopForumSpam
      *
      * @throws HttpException
      */
-    public function __construct($email, array $options = [])
+    public function __construct(string $email, array $options = [])
     {
         parent::__construct($options);
 

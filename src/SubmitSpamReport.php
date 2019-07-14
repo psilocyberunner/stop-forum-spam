@@ -35,7 +35,7 @@ class SubmitSpamReport extends StopForumSpam
      *
      * @param array $options
      */
-    public function __construct($options = [])
+    public function __construct(array $options = [])
     {
         parent::__construct($options);
 
@@ -45,7 +45,7 @@ class SubmitSpamReport extends StopForumSpam
     }
 
     /**
-     * @param $name
+     * @param string $name
      *
      * @return Client
      * @throws HttpException
@@ -86,7 +86,7 @@ class SubmitSpamReport extends StopForumSpam
      * @return $this
      * @throws HttpException
      */
-    public function setUsername($username)
+    public function setUsername($username): self
     {
         $this->setOptions(['query' => ['username' => urlencode($username)]]);
 
@@ -101,7 +101,7 @@ class SubmitSpamReport extends StopForumSpam
      * @return $this
      * @throws HttpException
      */
-    public function setIpAddress($ip)
+    public function setIpAddress($ip): self
     {
         if (filter_var($ip, FILTER_VALIDATE_IP)) {
             $this->setOptions(['query' => ['ip_addr' => urlencode($ip)]]);
@@ -120,7 +120,7 @@ class SubmitSpamReport extends StopForumSpam
      * @return $this
      * @throws HttpException
      */
-    public function setEvidence($evidence)
+    public function setEvidence($evidence): self
     {
         $this->setOptions(['query' => ['evidence' => urlencode($evidence)]]);
 
@@ -135,7 +135,7 @@ class SubmitSpamReport extends StopForumSpam
      * @return $this
      * @throws HttpException
      */
-    public function setEmail($email)
+    public function setEmail($email): self
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->setOptions(['query' => ['email' => urlencode($email)]]);

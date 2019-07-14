@@ -58,7 +58,7 @@ class SearchByIpTest extends TestCase
      */
     public function testCreateInstanceBadIp()
     {
-        $this->expectException(HttpException::class);
+        $this->expectException(\TypeError::class);
         (new SearchByIp(null))->search();
     }
 

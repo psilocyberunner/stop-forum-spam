@@ -21,7 +21,7 @@ class SearchByEmailHash extends StopForumSpam
      *
      * @throws HttpException
      */
-    public function __construct($emailHash, array $options = [])
+    public function __construct(string $emailHash, array $options = [])
     {
         parent::__construct($options);
 

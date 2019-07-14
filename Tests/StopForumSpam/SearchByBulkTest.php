@@ -72,8 +72,8 @@ class SearchByBulkTest extends TestCase
      */
     public function testCreateInstanceBadBulkData()
     {
-        $this->expectException(\TypeError::class);
-        (new SearchByBulk(null))->search();
+        $this->expectException(HttpException::class);
+        (new SearchByBulk([]))->search();
     }
 
     /**

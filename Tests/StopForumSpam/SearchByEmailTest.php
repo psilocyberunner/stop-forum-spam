@@ -63,6 +63,16 @@ class SearchByEmailTest extends TestCase
     }
 
     /**
+     * @covers \StopForumSpam\SearchByEmail::__construct
+     * @throws HttpException
+     */
+    public function testCreateInstanceEmptyEmail()
+    {
+        $this->expectException(\TypeError::class);
+        (new SearchByEmail(null))->search();
+    }
+
+    /**
      * @covers \StopForumSpam\SearchByEmail::search
      * @throws HttpException
      */

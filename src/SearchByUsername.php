@@ -20,7 +20,7 @@ class SearchByUsername extends StopForumSpam
      *
      * @throws HttpException
      */
-    public function __construct($username, array $options = [])
+    public function __construct(string $username, array $options = [])
     {
         parent::__construct($options);
 

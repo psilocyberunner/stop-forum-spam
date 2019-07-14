@@ -57,7 +57,7 @@ class SearchByEmailHashTest extends TestCase
      */
     public function testCreateInstanceBadEmailHash()
     {
-        $this->expectException(HttpException::class);
+        $this->expectException(\TypeError::class);
         (new SearchByEmailHash(null))->search();
     }
 

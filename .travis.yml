@@ -1,6 +1,5 @@
 language: php
 php:
-  - '7.0'
   - '7.1'
   - '7.2'
   - '7.3'
@@ -12,3 +11,7 @@ before_install:
 install:
   - rm composer.lock
   - travis_retry composer update --prefer-dist
+
+script:
+  - composer phpstan
+  - ./vendor/bin/phpunit

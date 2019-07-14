@@ -42,7 +42,7 @@ abstract class StopForumSpam
      *
      * @param array $options
      */
-    public function __construct($options = [])
+    public function __construct(array $options = [])
     {
         $this->options = array_merge_recursive([
             'base_uri' => $this->apiUrl,
@@ -66,18 +66,24 @@ abstract class StopForumSpam
             throw new HttpException('Can not use empty $options array');
         }
 
-        $this->options = array_replace_recursive($this->options, $options);
+        $result = array_replace_recursive($this->options, $options);
+
+        if (!is_array($result)) {
+            throw new HttpException('Can not merge configuration array.');
+        }
+
+        $this->options = $result;
 
         return $this;
     }
 
     /**
-     * @param $name
+     * @param string $name
      *
      * @return Client
      * @throws HttpException
      */
-    public function __get($name)
+    public function __get(string $name)
     {
         if (empty($this->options['base_uri'])) {
             throw new HttpException('Base Uri can not be empty.');
@@ -119,7 +125,7 @@ abstract class StopForumSpam
      * @return StopForumSpam
      * @throws HttpException
      */
-    public function asJSONP($function): self
+    public function asJSONP(string $function): self
     {
         $this->setOptions(['query' => ['jsonp' => true, 'callback' => $function]]);
 
@@ -202,7 +208,7 @@ abstract class StopForumSpam
      * @return $this
      * @throws HttpException
      */
-    public function withNoBadEmail()
+    public function withNoBadEmail(): self
     {
         $this->setOptions(['query' => ['nobademail' => true]]);
 
@@ -215,7 +221,7 @@ abstract class StopForumSpam
      * @return $this
      * @throws HttpException
      */
-    public function withNoBadUsername()
+    public function withNoBadUsername(): self
     {
         $this->setOptions(['query' => ['nobadusername' => true]]);
 
@@ -228,7 +234,7 @@ abstract class StopForumSpam
      * @return $this
      * @throws HttpException
      */
-    public function withNoBadIp()
+    public function withNoBadIp(): self
     {
         $this->setOptions(['query' => ['nobadip' => true]]);
 
@@ -241,7 +247,7 @@ abstract class StopForumSpam
      * @return $this
      * @throws HttpException
      */
-    public function withNoBadAll()
+    public function withNoBadAll(): self
     {
         $this->setOptions(['query' => ['nobadall' => true]]);
 

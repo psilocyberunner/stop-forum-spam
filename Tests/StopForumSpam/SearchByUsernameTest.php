@@ -58,7 +58,7 @@ class SearchByUsernameTest extends TestCase
      */
     public function testCreateInstanceBadUsername()
     {
-        $this->expectException(HttpException::class);
+        $this->expectException(\TypeError::class);
         (new SearchByUsername(null))->search();
     }
 
