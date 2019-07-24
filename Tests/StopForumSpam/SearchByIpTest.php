@@ -80,4 +80,47 @@ class SearchByIpTest extends TestCase
         $this->assertEquals(1, $jsonResult->success);
     }
 
+    /**
+     * @covers \StopForumSpam\SearchByIp::withNoTorExit
+     * @throws HttpException
+     */
+    public function testSearchByIpWithNoTorExit()
+    {
+        $sfs = new SearchByIp('1.2.3.4');
+        $sfs->withNoTorExit();
+
+        $options = $sfs->getOptions();
+
+        $this->assertEquals('1.2.3.4', $options['query']['ip']);
+        $this->assertEquals(true, $options['query']['notorexit']);
+
+        $result = $sfs->search();
+
+        $this->assertEquals(200, $result->getStatusCode());
+
+        $result = json_decode($result->getBody()->getContents(), true);
+        $this->assertEquals(1, $result['success']);
+    }
+
+    /**
+     * @covers \StopForumSpam\SearchByIp::withBadTorExit
+     * @throws HttpException
+     */
+    public function testSearchByIpWithBadTorExit()
+    {
+        $sfs = new SearchByIp('1.2.3.4');
+        $sfs->withBadTorExit();
+
+        $options = $sfs->getOptions();
+
+        $this->assertEquals('1.2.3.4', $options['query']['ip']);
+        $this->assertEquals(true, $options['query']['badtorexit']);
+
+        $result = $sfs->search();
+
+        $this->assertEquals(200, $result->getStatusCode());
+
+        $result = json_decode($result->getBody()->getContents(), true);
+        $this->assertEquals(1, $result['success']);
+    }
 }

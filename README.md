@@ -424,6 +424,56 @@ $client = new SearchByIp('127.0.0.1');
 $client->useUSRegion(); # If you want to use US region servers
 ```
 
+#### Tor Exit Nodes
+
+Logic available in IP search only.
+Known Tor exit nodes will be included in all serialised replies. 
+If you wish to ignore the listing for any known Tor exit node, then include the 
+
+```php
+<?php
+
+$client->withNoTorExit();
+```
+
+call in the request. Any IP address listed that is known as a Tor exit node will 
+return a frequency of 0.
+
+```json
+{  
+   "success":1,
+   "ip":{  
+      "torexit":1,
+      "frequency":0,
+      "appears":0
+   }
+}
+```
+
+
+Some administrators may wish to **block a known Tor exit node regardless of it's listing**. 
+A result for an IP that is recorded as a Tor exit node will return a frequency of 255 regardless 
+of being listed or not. Use as:
+
+```php
+<?php
+
+$client->withBadTorExit();
+```
+
+```json
+{  
+   "success":1,
+   "ip":{  
+      "torexit":1,
+      "lastseen":"2016-06-22 17:36:47",
+      "frequency":255,
+      "appears":1
+   }
+}
+```
+ 
+
 #### Some useful methods
 
 Method call **withConfidence()** will include in response additional info about confidence score
@@ -452,18 +502,14 @@ $client->asJSONP('test');
 
 Response example
 
-`test({"success":1,"email":{"lastseen":"2019-03-24 14:19:15","frequency":5027,"appears":1,"confidence":97.01}})`
-
-
-#### Future plans
-
-Add geo region restrictions
-
-Add bulk search logic (?) 
-
-Add TOR exit nodes logic (?)
-
-Add xmlcdata (?) 
-
-Add xmldom (?)
-
+```metadata json
+test({
+   "success":1,
+   "email":{  
+      "lastseen":"2019-03-24 14:19:15",
+      "frequency":5027,
+      "appears":1,
+      "confidence":97.01
+   }
+})
+```
