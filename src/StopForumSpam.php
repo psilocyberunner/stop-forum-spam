@@ -20,7 +20,7 @@ abstract class StopForumSpam
      *
      * @var string
      */
-    protected $apiUrl = 'http://api.stopforumspam.org/api';
+    protected $apiUrl = 'https://api.stopforumspam.org/api';
 
     /**
      * Preferred response type
@@ -250,6 +250,30 @@ abstract class StopForumSpam
     public function withNoBadAll(): self
     {
         $this->setOptions(['query' => ['nobadall' => true]]);
+
+        return $this;
+    }
+
+    /**
+     * Use Europe region for API calls
+     *
+     * @return $this
+     */
+    public function useEuropeRegion()
+    {
+        $this->apiUrl = 'https://europe.stopforumspam.org/api';
+
+        return $this;
+    }
+
+    /**
+     * Use US region for API calls
+     *
+     * @return $this
+     */
+    public function useUSRegion()
+    {
+        $this->apiUrl = 'https://us.stopforumspam.org/api';
 
         return $this;
     }

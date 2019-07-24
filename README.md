@@ -401,6 +401,29 @@ Or to ignore all wildcard checks
 $client->withNoBadAll();
 ```
 
+#### Geographic Access
+
+The API provides several geographically diverse locations.
+
+**api.stopforumspam.org** should be used as this will direct your query to the closest regional 
+server in order to provide the quickest response. Should you wish to restrict traffic to a 
+specific region, such as for compliance with company or country privacy regulations, then you 
+can force a connection to a specific region.
+
+```php
+<?php
+
+$client = new SearchByEmail('test@email.com');
+$client->useEuropeRegion(); # If you want to use Europe region servers
+```
+
+```php
+<?php
+
+$client = new SearchByIp('127.0.0.1');
+$client->useUSRegion(); # If you want to use US region servers
+```
+
 #### Some useful methods
 
 Method call **withConfidence()** will include in response additional info about confidence score

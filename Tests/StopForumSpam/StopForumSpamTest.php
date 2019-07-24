@@ -193,4 +193,32 @@ class StopForumSpamTest extends TestCase
         $this->expectException(HttpException::class);
         $this->instance->search();
     }
+
+    /**
+     * @covers \StopForumSpam\StopForumSpam::useEuropeRegion
+     * @throws HttpException
+     */
+    public function testUseEuropeRegion()
+    {
+        $this->instance->useEuropeRegion();
+        $this->instance->setOptions(['query' => ['email' => 'test@test.tld']]);
+        $result = $this->instance->search();
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+        $this->assertEquals('OK', $result->getReasonPhrase());
+        $this->assertEquals(200, $result->getStatusCode());
+    }
+
+    /**
+     * @covers \StopForumSpam\StopForumSpam::useUSRegion
+     * @throws HttpException
+     */
+    public function testUseUSRegion()
+    {
+        $this->instance->useUSRegion();
+        $this->instance->setOptions(['query' => ['ip' => '127.0.0.1']]);
+        $result = $this->instance->search();
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+        $this->assertEquals('OK', $result->getReasonPhrase());
+        $this->assertEquals(200, $result->getStatusCode());
+    }
 }
