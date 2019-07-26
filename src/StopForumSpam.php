@@ -23,13 +23,6 @@ abstract class StopForumSpam
     protected $apiUrl = 'https://api.stopforumspam.org/api';
 
     /**
-     * Preferred response type
-     *
-     * @var string
-     */
-    protected $responseType = 'json';
-
-    /**
      * Options for constructing Guzzle client instance
      * http://docs.guzzlephp.org/en/stable/request-options.html
      *
