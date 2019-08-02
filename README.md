@@ -84,9 +84,6 @@ $result = $client->search();
 return $result->getBody()->getContents();
 ```
 
-When a query results in a blacklist result, the frequncy field will be a value of 255, 
-and the lastseen date will update to the current time (UTC).
-
 Example response
 
 ```json
