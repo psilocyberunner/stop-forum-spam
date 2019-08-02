@@ -85,6 +85,64 @@ class StopForumSpamTest extends TestCase
     }
 
     /**
+     * @throws HttpException
+     * @covers \StopForumSpam\StopForumSpam::asSerialized
+     */
+    public function testAsSerialized()
+    {
+        $this->instance->asSerialized();
+
+        $options = $this->instance->getOptions();
+
+        $this->assertTrue($options['query']['serial'] === true);
+
+        # configure instance to send request
+        $this->instance->setOptions(['query' => ['ip' => '10.11.12.13']]);
+
+        $result = $this->instance->search();
+
+        $result = unserialize($result->getBody()->getContents());
+
+        $this->assertEquals(1, $result['success']);
+        $this->assertTrue(is_array($result['ip']));
+    }
+
+    /**
+     * @throws HttpException
+     * @covers \StopForumSpam\StopForumSpam::withExpire
+     */
+    public function testWithExprire()
+    {
+        $this->instance->withExpire(1000);
+
+        $options = $this->instance->getOptions();
+
+        $this->assertTrue($options['query']['expire'] === 1000);
+    }
+
+    /**
+     * @throws HttpException
+     * @covers \StopForumSpam\StopForumSpam::withUnixTimestamp
+     */
+    public function testWithUnixTimestamp()
+    {
+        $this->instance->withUnixTimestamp();
+
+        # configure instance to send request
+        $this->instance->setOptions(['query' => ['ip' => '127.0.0.1']]);
+
+        $options = $this->instance->getOptions();
+
+        $this->assertTrue($options['query']['unix']);
+
+        $result = $this->instance->search();
+
+        $result = json_decode($result->getBody()->getContents());
+
+        $this->assertEquals(1, $result->success);
+    }
+
+    /**
      * @covers \StopForumSpam\StopForumSpam::withConfidence
      * @throws HttpException
      */
