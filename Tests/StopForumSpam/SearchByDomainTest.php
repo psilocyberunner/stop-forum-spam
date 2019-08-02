@@ -35,7 +35,7 @@ class SearchByDomainTest extends TestCase
      */
     protected function setUp()
     {
-        $this->instance = new class('@kinogomyhit.ru') extends SearchByDomain
+        $this->instance = new class('kinogomyhit.ru') extends SearchByDomain
         {
 
         };
@@ -74,10 +74,31 @@ class SearchByDomainTest extends TestCase
         $jsonResult = json_decode($response->getBody()->getContents());
 
         $this->assertTrue(isset($jsonResult->success));
-        $this->assertTrue(isset($jsonResult->email));
+        $this->assertTrue(isset($jsonResult->domain));
 
         # When a query results in a blacklist result, the frequncy field will be a value of 255, and the lastseen date will update to the current time (UTC)
-        $this->assertTrue(isset($jsonResult->email->frequency));
+        $this->assertTrue(isset($jsonResult->domain->appears));
+        $this->assertEquals(1, $jsonResult->domain->appears);
+
+        $this->assertEquals(1, $jsonResult->success);
+    }
+
+    public function testSearchByClearDomain()
+    {
+        $client = new SearchByDomain('test.ru');
+
+        $response = $client->search();
+
+        $this->assertEquals(404, $response->getStatusCode());
+
+        $jsonResult = json_decode($response->getBody()->getContents());
+
+        $this->assertTrue(isset($jsonResult->success));
+        $this->assertTrue(isset($jsonResult->domain));
+
+        # When a query results in a blacklist result, the frequncy field will be a value of 255, and the lastseen date will update to the current time (UTC)
+        $this->assertTrue(isset($jsonResult->domain->appears));
+        $this->assertEquals(0, $jsonResult->domain->appears);
 
         $this->assertEquals(1, $jsonResult->success);
     }

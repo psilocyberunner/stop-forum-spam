@@ -25,7 +25,7 @@ require_once '../vendor/autoload.php';
 
 # Add exception handler, Whoops is a good choice for your experiments
 $whoops = new \Whoops\Run;
-$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+$whoops->prependHandler(new \Whoops\Handler\PrettyPageHandler);
 $whoops->register();
 ```
 
@@ -66,7 +66,8 @@ Example response
 #### Search by domain
 
 This search is almost equal to email search except that it uses wildcard list of hostile domains.
-
+No additional options are available as just a list of domains is used: 
+https://www.stopforumspam.com/downloads/toxic_domains_whole.txt 
 ```php
 <?php
 
@@ -77,12 +78,9 @@ require_once 'bootstrap.php';
 
 # --- Search by domain
 
-$client = new SearchByDomain('@kinogomyhit.ru');
-$client->asJSON();
-$client->withConfidence(); # If you need confidence score
+$client = new SearchByDomain('kinogomyhit.ru');
 $result = $client->search();
 
-# When a query results in a blacklist result, the frequncy field will be a value of 255, and the lastseen date will update to the current time (UTC)
 return $result->getBody()->getContents();
 ```
 
@@ -94,11 +92,19 @@ Example response
 ```json
 {
     "success": 1,
-    "email": {
-        "lastseen": "2019-01-01 00:00:01",
-        "frequency": 255,
-        "appears": 1,
-        "confidence": 99.95
+    "domain": {
+        "appears": 1
+    }
+}
+```
+
+For not found domains you'll get
+
+```json
+{
+    "success": 1,
+    "domain": {
+        "appears": 0
     }
 }
 ```
